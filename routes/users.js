@@ -16,7 +16,19 @@ router.get('/:id', (req, res) => {
 
 })
 
-router.post('/', (req, res) => {
+//Post Methods send 201s since they are more specific to you creating something
+router.post('/', async(req, res) => {
+  const user = await new User({
+    username: req.body.username,
+    password: req.body.password,
+  })
+  try {
+    const newUser = await user.save()
+    res.status(201).json(newUser)
+  }
+  catch(err) {
+    res.status(400).json({ message: err.message })
+  }
 
 })
 
