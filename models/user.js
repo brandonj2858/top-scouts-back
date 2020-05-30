@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    minLength: 6,
     index: {unique: true}
   },
   password: {
@@ -16,8 +17,9 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: " "
+    default: ""
   }
 })
+
 
 module.exports = mongoose.model('User', userSchema)
