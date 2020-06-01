@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
 
   try {
     const teams = await Team.find()
-    res.json()
+    res.json(teams)
   }
   catch (err){
     res.status(500).json({ message: err.message })

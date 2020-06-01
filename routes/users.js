@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 
 router.get('/', async (req, res) => {
@@ -18,11 +19,13 @@ router.get('/:id', getUser, (req, res) => {
 
 //Post Methods send 201s since they are more specific to you creating something
 router.post('/', async(req, res) => {
-  const user = await new User({
-    username: req.body.username,
-    password: req.body.password,
-  })
   try {
+    const salt = await bcrypt.genSalt()
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+    const user = await new User({
+      username: req.body.username,
+      password: hashedPassword,
+    })
     const newUser = await user.save()
     res.status(201).json(newUser)
   }
