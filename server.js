@@ -16,11 +16,15 @@ db.once('open', () => console.log('Connected to database'))
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
 
-
-fetch('https://api.collegefootballdata.com/roster?team=arkansas&year=2019')
+/*
+fetch('https://api.collegefootballdata.com/roster?team=Washington%20State&year=2019')
   .then(res => res.json())
+  .then(resObj => {
+    resObj.forEach(player => player.school = "Washington State")
+    return resObj
+  })
   .then(resObj => db.collection('players').insertMany(resObj))
-
+*/
 
 
 
