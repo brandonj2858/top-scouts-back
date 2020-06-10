@@ -66,6 +66,13 @@ let schoolsList = [  'Air Force',         'Akron',                 'Alabama',
 let schoolsTest = ['Appalachian State', 'Arizona']
 
 
+db.collection('players').update({},
+  {"$set": {"scouting_report" : "", "rank": 999}},
+  {multi: true}
+
+)
+
+
 /*
 function rosterFetch() {
   schoolsList.forEach((school) => {
