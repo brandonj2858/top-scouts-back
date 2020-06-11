@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Team = require('./models/team')
+const Watchlist = require('./models/watchlist')
 
 const fetch = require('node-fetch');
 const express = require('express')
@@ -66,11 +67,7 @@ let schoolsList = [  'Air Force',         'Akron',                 'Alabama',
 let schoolsTest = ['Appalachian State', 'Arizona']
 
 
-db.collection('players').update({},
-  {"$set": {"scouting_report" : "", "rank": 999}},
-  {multi: true}
 
-)
 
 
 /*
@@ -117,7 +114,13 @@ app.use(express.json())
 const teamsRouter = require('./routes/teams')
 const usersRouter = require('./routes/users')
 const playersRouter = require('./routes/players')
+const watchlistsRouter = require('./routes/watchlists')
+const commentsRouter = require('./routes/comments')
+const watchlistPlayersRouter = require('./routes/watchlist_players')
 
+app.use('/watchlist_players', watchlistPlayersRouter)
+app.use('/comments', commentsRouter)
+app.use('/watchlists', watchlistsRouter)
 app.use('/users', usersRouter)
 app.use('/teams', teamsRouter)
 app.use('/players', playersRouter)

@@ -17,6 +17,20 @@ router.get('/:id', getPlayer, (req, res) => {
 })
 
 
+router.patch('/:id', getPlayer,async (req, res) => {
+  let newRank = parseInt(req.body.rank)
+  res.player.rank = newRank
+  console.log(res.player)
+  try {
+    const updatedPlayer = await res.player.save()
+    console.log(updatedPlayer)
+    res.json(updatedPlayer)
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
+
 
 
 
@@ -24,7 +38,7 @@ async function getPlayer(req, res, next) {
   let player
   try {
     player = await Player.findById(req.params.id);
-    if (plauer == null) {
+    if (player == null) {
       return res.status(404).json({ message: 'Player Not Found' })
     }
   } catch (err) {

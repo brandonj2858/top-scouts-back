@@ -34,7 +34,7 @@ const playerSchema = new mongoose.Schema({
   school: {
 
   },
-  ranking: {
+  rank: {
 
   },
   scouting_report: {
