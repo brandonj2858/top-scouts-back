@@ -18,8 +18,20 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: ""
-  }
-})
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:  'Comment'
+    }
+  ]
+},{
+  toJSON: {
+    virtuals: true,
+  },
+}
+
+)
 
 
 module.exports = mongoose.model('User', userSchema)

@@ -91,8 +91,6 @@ rosterFetch()
 
 
 
-
-
 /*
 fetch('https://api.collegefootballdata.com/roster?team=Washington%20State&year=2019')
   .then(res => res.json())
