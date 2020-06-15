@@ -88,7 +88,9 @@ rosterFetch()
 */
 
 
-
+/* drop user comments
+db.collection('users').update({}, {$set: {'comments' : []}}, {multi: true})
+*/
 
 
 /*

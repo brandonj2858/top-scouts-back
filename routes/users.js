@@ -63,7 +63,7 @@ async function getUser(req, res, next) {
   let user
   try {
     user = await User.findById(req.params.id)
-    user.populate({path: "comments", select: "comment.content"}).execPopulate()
+    
 
 
 

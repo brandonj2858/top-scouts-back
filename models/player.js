@@ -39,7 +39,17 @@ const playerSchema = new mongoose.Schema({
   },
   scouting_report: {
 
-  }
+  },
+  comments: [
+    {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+    }
+  ]
+},{
+  toJSON: {
+    virtuals: true,
+  },
 })
 
 
