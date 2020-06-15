@@ -24,8 +24,15 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref:  'Comment'
     }
-  ]
-},{
+  ],
+  watchlists: [
+      {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Watchlist'
+      }
+    ]
+},
+{
   toJSON: {
     virtuals: true,
   },
