@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt')
 
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find()
+    const users = await User.find().populate('comment').exec()
+
     res.json(users)
   } catch (err) {
     res.status(500).json({message: err.message})

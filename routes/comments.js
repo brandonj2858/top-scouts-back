@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Comment = require('../models/comment')
+const User = require('../models/user')
 
 router.get('/', async(req, res) => {
   try {
@@ -18,6 +19,13 @@ router.post('/', async(req, res) => {
     user: req.body.user,
     player: req.body.player
   })
+/*  const user = await User.findById(req.body.user) */
+  await User.update(
+    {_id: req.body.user},
+    {$push: {comments: comment}}
+  )
+
+
 
   try {
     const newComment = await comment.save()
