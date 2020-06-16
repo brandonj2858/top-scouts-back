@@ -4,9 +4,13 @@ const watchlistPlayerSchema = new mongoose.Schema({
   name: {
 
   },
+  watchlist: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Watchlist'
+  },
   player: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'player'
+    ref: 'Player'
   }
 })
 
