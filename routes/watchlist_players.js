@@ -7,4 +7,19 @@ router.get('/', (req, res) => {
   res.json(watchlist_players)
 })
 
+router.post('/', async(req, res) => {
+  let watchlist_player = await new WatchlistPlayer({
+    name: req.body.name,
+    watchlist: req.body.watchlist,
+    player: req.body.player
+  })
+  try {
+    await watchlist_player.save()
+
+
+  } catch (err) {
+
+  }
+})
+
 module.exports = router
