@@ -8,6 +8,7 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 
+
 mongoose.set('runValidators', true);
 mongoose.connect(process.env.DATABASE_URL,  { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -110,6 +111,26 @@ fetch('https://api.collegefootballdata.com/roster?team=Washington%20State&year=2
 
 //Middleware that Allows server to accept JSON as body.
 app.use(express.json())
+
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'localhost:3001');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 
 const teamsRouter = require('./routes/teams')
 const usersRouter = require('./routes/users')
