@@ -25,10 +25,10 @@ router.patch('/:id', getPlayer,async (req, res) => {
   let newReport = req.body.scouting_report
   res.player.rank = newRank
   res.player.scouting_report = newReport
-  console.log(res.player)
+  
   try {
     const updatedPlayer = await res.player.save()
-    console.log(updatedPlayer)
+    console.log('done')
     res.json(updatedPlayer)
   } catch (err) {
     res.status(500).json({ message: err.message })
