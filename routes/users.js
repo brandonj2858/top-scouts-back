@@ -63,7 +63,7 @@ async function getUser(req, res, next) {
   let user
   try {
     user = await User.findById(req.params.id)
-    
+
 
 
 
@@ -79,5 +79,19 @@ async function getUser(req, res, next) {
 
   next()
 }
+
+
+// Login
+
+router.post('/login', async(req, res) => {
+  const user = await User.findOne({username: req.body.username})
+  if (!user) return res.status(400).send('Username is Wrong');
+
+  const validPass = await bcrypt.compare(req.body.password, user.password)
+  if(!validPass) return res.status(400).send('Password is Wrong')
+
+  res.send("logged in")
+
+})
 
 module.exports = router
