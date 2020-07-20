@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 
 
 router.get('/', async (req, res) => {
@@ -89,6 +91,9 @@ router.post('/login', async(req, res) => {
 
   const validPass = await bcrypt.compare(req.body.password, user.password)
   if(!validPass) return res.status(400).send('Password is Wrong')
+
+  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+  res.header('auth-token', token).send(token)
 
   res.send("logged in")
 
