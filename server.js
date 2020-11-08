@@ -1,6 +1,7 @@
 require('dotenv').config()
 const Team = require('./models/team')
 const Watchlist = require('./models/watchlist')
+const cors = require("cors")
 
 const fetch = require('node-fetch');
 const express = require('express')
@@ -9,12 +10,14 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 
 
+
 mongoose.set('runValidators', true);
 mongoose.connect(process.env.DATABASE_URL,  { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 db.on('error', (err) => console.error(err))
 db.once('open', () => console.log('Connected to database'))
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
 

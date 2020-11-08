@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 
+require('dotenv').config();
+
 
 router.get('/', async (req, res) => {
   try {
@@ -65,10 +67,7 @@ async function getUser(req, res, next) {
   let user
   try {
     user = await User.findById(req.params.id)
-
-
-
-
+    console.log()
 
     if (user == null) {
       return res.status(404).json( { message: "User not found." } )
@@ -86,18 +85,46 @@ async function getUser(req, res, next) {
 // Login
 
 router.post('/login', async(req, res) => {
-  const user = await User.findOne({username: req.body.username})
-  if (!user) return res.status(400).send('Username is Wrong');
 
-  const validPass = await bcrypt.compare(req.body.password, user.password)
-  if(!validPass) return res.status(400).send('Password is Wrong')
+  try {
+    const {username, password} = req.body;
+    const user = await User.findOne({username: req.body.username})
+    console.log(user)
+    if (!user) return res.status(400).json({message: 'Username is Wrong'});
+    const validPass = await bcrypt.compare(password, user.password)
+    if(!validPass) return res.status(400).json({message:'Password is Wrong'})
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    res.json({
+      token,
+      user: {
+        _id: user._id,
+        username: user.username,
+      }
+    })
+  }
+  catch(err) {
+    return res.status(404).json( { message: err.message } )
+  }
 
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send(token)
-  res.json(user)
+  router.post("/tokenIsValid", async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if (!token) return res.json(false);
 
-  res.send("logged in")
-  
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verified) return res.json(false);
+
+    const user = await User.findById(verified.id);
+    if (!user) return res.json(false);
+
+    return res.json(true);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 
 })
 
